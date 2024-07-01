@@ -752,7 +752,7 @@ bool DalyBms::requestData(COMMAND cmdID, unsigned int frameAmount) // new functi
     this->my_serialIntf->flush();
     //-------------------------------------------
 
-    //-----------Recive Part---------------------
+    //-----------Receive Part---------------------
     /*uint8_t rxByteNum = */ this->my_serialIntf->readBytes(this->my_rxFrameBuffer, XFER_BUFFER_LENGTH * frameAmount);
     for (size_t i = 0; i < frameAmount; i++)
     {
@@ -767,10 +767,10 @@ bool DalyBms::requestData(COMMAND cmdID, unsigned int frameAmount) // new functi
         {
             rxChecksum += this->frameBuff[i][k];
         }
-        char debugBuff[128];
-        sprintf(debugBuff, "<UART>[Command: 0x%2X][CRC Rec: %2X][CRC Calc: %2X]", cmdID, rxChecksum, this->frameBuff[i][XFER_BUFFER_LENGTH - 1]);
-        //BMS_DEBUG_PRINTLN(debugBuff);
-        //BMS_DEBUG_WEBLN(debugBuff);
+        // char debugBuff[128];
+        // sprintf(debugBuff, "<UART>[Command: 0x%2X][CRC Rec: %2X][CRC Calc: %2X]", cmdID, rxChecksum, this->frameBuff[i][XFER_BUFFER_LENGTH - 1]);
+        // BMS_DEBUG_PRINTLN(debugBuff);
+        // BMS_DEBUG_WEBLN(debugBuff);
 
         if (rxChecksum != this->frameBuff[i][XFER_BUFFER_LENGTH - 1])
         {

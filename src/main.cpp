@@ -242,7 +242,7 @@ bool relaisHandler()
       else
       {
         relaisComparsionResult = false;
-        _settings.data.relaisInvert ? digitalWrite(RELAIS_PIN, !relaisComparsionResult) : digitalWrite(RELAIS_PIN, relaisComparsionResult);
+        //_settings.data.relaisInvert ? digitalWrite(RELAIS_PIN, !relaisComparsionResult) : digitalWrite(RELAIS_PIN, relaisComparsionResult);
       }
     }
     // now compare depending on the mode
@@ -286,7 +286,7 @@ bool relaisHandler()
       // i keep this just here for better reading of the code. The else {} statement can be removed later
     }
 
-    _settings.data.relaisInvert ? digitalWrite(RELAIS_PIN, !relaisComparsionResult) : digitalWrite(RELAIS_PIN, relaisComparsionResult);
+    //_settings.data.relaisInvert ? digitalWrite(RELAIS_PIN, !relaisComparsionResult) : digitalWrite(RELAIS_PIN, relaisComparsionResult);
 
     return true;
   }
@@ -334,6 +334,39 @@ bool resetCounter(bool count)
   return true;
 }
 
+void updateLEDs(int percentage) {
+  // Turn on LEDs based on the percentage value
+  digitalWrite(LED100_PIN, percentage >= 80 ? HIGH : LOW);
+  digitalWrite(LED80_PIN, percentage >= 60 ? HIGH : LOW);
+  digitalWrite(LED60_PIN, percentage >= 40 ? HIGH : LOW);
+  digitalWrite(LED40_PIN, percentage >= 20 ? HIGH : LOW);
+
+  if(percentage<10){
+    digitalWrite(LED20_PIN, !digitalRead(LED20_PIN));
+  }else{
+    digitalWrite(LED20_PIN, HIGH);
+  }
+}
+
+void setupLEDpins() {
+    // Initialize the LED pins as outputs
+    pinMode(LED100_PIN, OUTPUT);
+    pinMode(LED80_PIN, OUTPUT);
+    pinMode(LED60_PIN, OUTPUT);
+    pinMode(LED40_PIN, OUTPUT);
+    pinMode(LED20_PIN, OUTPUT);
+
+    // Turn off all LEDs initially
+    digitalWrite(LED100_PIN, LOW);
+    digitalWrite(LED80_PIN, LOW);
+    digitalWrite(LED60_PIN, LOW);
+    digitalWrite(LED40_PIN, LOW);
+    digitalWrite(LED20_PIN, LOW);
+
+    updateLEDs(100); //startup check
+}
+
+
 void setup()
 {
 //make a compatibility mode for some crap routers?
@@ -347,9 +380,10 @@ void setup()
   haAutoDiscTrigger = _settings.data.haDiscovery;
   pinMode(WAKEUP_PIN, OUTPUT);
   digitalWrite(WAKEUP_PIN, _settings.data.wakeupEnable);
-  pinMode(RELAIS_PIN, OUTPUT);
-  pinMode(LED_PIN, OUTPUT);
-  analogWrite(LED_PIN, 0);
+  //pinMode(RELAIS_PIN, OUTPUT);
+
+  setupLEDpins();
+
   WiFi.persistent(true); // fix wifi save bug
   WiFi.hostname(_settings.data.deviceName);
   deviceJson["Name"] = _settings.data.deviceName; // set the device name in json string
@@ -672,7 +706,6 @@ void setup()
     tempSens.begin();
     numOfTempSens = tempSens.getDeviceCount();
   }
-  analogWrite(LED_PIN, 255);
   resetCounter(false);
 }
 // end void setup
@@ -703,6 +736,7 @@ void loop()
     wakeupHandler(false);
     relaisHandler();
     notificationLED();
+    updateLEDs(bmsSOC);
   }
   if (restartNow && millis() >= (RestartTimer + 500))
   {
@@ -759,7 +793,8 @@ void getJsonData()
   packJson[F("Voltage")] = bms.get.packVoltage;
   packJson[F("Current")] = bms.get.packCurrent;
   packJson[F("Power")] = (bms.get.packCurrent * bms.get.packVoltage);
-  packJson[F("SOC")] = bms.get.packSOC;
+  bmsSOC = bms.get.packSOC;
+  packJson[F("SOC")] = bmsSOC;
   packJson[F("Remaining_Ah")] = bms.get.resCapacityAh;
   packJson[F("Cycles")] = bms.get.bmsCycles;
   packJson[F("BMS_Temp")] = bms.get.tempAverage;

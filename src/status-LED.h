@@ -80,5 +80,5 @@ void notificationLED()
     }
     */
   }
-  analogWrite(LED_PIN, 255 - ledPin);
+//  analogWrite(LED_PIN, 255 - ledPin);
 }

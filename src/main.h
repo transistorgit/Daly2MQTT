@@ -20,7 +20,17 @@ https://github.com/softwarecrash/DALY2MQTT
 #define WAKEUP_PIN 15 // GPIO pin for the wakeup transistor
 #define RELAIS_PIN 14 // GPIO pin for relais
 
-#define LED_PIN 02 // D4 with the LED on Wemos D1 Mini
+// #define LED_PIN 02 // D4 with the LED on Wemos D1 Mini
+
+#define LED100_PIN 16 // D0
+#define LED80_PIN 14  // D5
+#define LED60_PIN 2   // D4
+#define LED40_PIN 0   // D3
+#define LED20_PIN 5   // D1
+
+void setupLEDpins();
+void updateLEDs(int percentage);
+float bmsSOC = 0.0f;
 
 #define TEMPSENS_PIN 04 // DS18B20 Pin
 
