@@ -22,11 +22,11 @@ https://github.com/softwarecrash/DALY2MQTT
 
 // #define LED_PIN 02 // D4 with the LED on Wemos D1 Mini
 
-#define LED100_PIN 16 // D0
-#define LED80_PIN 14  // D5
-#define LED60_PIN 2   // D4
-#define LED40_PIN 0   // D3
-#define LED20_PIN 5   // D1
+#define LED90_PIN 16 // D0
+#define LED70_PIN 14 // D5
+#define LED50_PIN 2  // D4
+#define LED30_PIN 0  // D3
+#define LED10_PIN 5  // D1
 
 void setupLEDpins();
 void updateLEDs(int percentage);

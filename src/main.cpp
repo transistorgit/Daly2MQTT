@@ -336,34 +336,37 @@ bool resetCounter(bool count)
 
 void updateLEDs(int percentage) {
   // Turn on LEDs based on the percentage value
-  digitalWrite(LED100_PIN, percentage >= 80 ? HIGH : LOW);
-  digitalWrite(LED80_PIN, percentage >= 60 ? HIGH : LOW);
-  digitalWrite(LED60_PIN, percentage >= 40 ? HIGH : LOW);
-  digitalWrite(LED40_PIN, percentage >= 20 ? HIGH : LOW);
+  digitalWrite(LED90_PIN, percentage >= 82 ? HIGH : LOW);
+  digitalWrite(LED70_PIN, percentage >= 64 ? HIGH : LOW);
+  digitalWrite(LED50_PIN, percentage >= 46 ? HIGH : LOW);
+  digitalWrite(LED30_PIN, percentage >= 28 ? HIGH : LOW);
 
-  if(percentage<10){
-    digitalWrite(LED20_PIN, !digitalRead(LED20_PIN));
-  }else{
-    digitalWrite(LED20_PIN, HIGH);
+  if (percentage <= 10)
+  {
+    digitalWrite(LED10_PIN, !digitalRead(LED10_PIN));
+  }
+  else
+  {
+    digitalWrite(LED10_PIN, HIGH);
   }
 }
 
 void setupLEDpins() {
     // Initialize the LED pins as outputs
-    pinMode(LED100_PIN, OUTPUT);
-    pinMode(LED80_PIN, OUTPUT);
-    pinMode(LED60_PIN, OUTPUT);
-    pinMode(LED40_PIN, OUTPUT);
-    pinMode(LED20_PIN, OUTPUT);
+    pinMode(LED90_PIN, OUTPUT);
+    pinMode(LED70_PIN, OUTPUT);
+    pinMode(LED50_PIN, OUTPUT);
+    pinMode(LED30_PIN, OUTPUT);
+    pinMode(LED10_PIN, OUTPUT);
 
     // Turn off all LEDs initially
-    digitalWrite(LED100_PIN, LOW);
-    digitalWrite(LED80_PIN, LOW);
-    digitalWrite(LED60_PIN, LOW);
-    digitalWrite(LED40_PIN, LOW);
-    digitalWrite(LED20_PIN, LOW);
+    digitalWrite(LED90_PIN, LOW);
+    digitalWrite(LED70_PIN, LOW);
+    digitalWrite(LED50_PIN, LOW);
+    digitalWrite(LED30_PIN, LOW);
+    digitalWrite(LED10_PIN, LOW);
 
-    updateLEDs(100); //startup check
+    updateLEDs(100); // startup check, all on
 }
 
 
